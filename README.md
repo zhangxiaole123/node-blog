@@ -4,5 +4,9 @@
 
 ##项目结构
 
-> bin >
-> www.js 负责 createServer
+##下载
+```
+>git clone https://github.com/zhangxiaole123/node-blog.git
+>npm install 
+>npm run dev 
+```
