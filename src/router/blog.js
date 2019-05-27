@@ -3,34 +3,39 @@ const {
     ErrorModel
 } = require('../model/resModel')
 const {
-    getList
+    getList,
+    getDetail,
+    addBlog
+
 } = require('../controller/blog')
+
+
 const handleBlogRouter = (req, res) => {
+    //获取数据
     const method = req.method
     const path = req.path
-
+    const {
+        author,
+        keyword,
+        id
+    } = req.query
+    const postData = req.postData;
     //获取博客列表
     if (method === 'GET' && path === '/api/blog/list') {
-        const {
-            author,
-            keyword
-        } = req.query
         const listData = getList(author, keyword)
         return new SuccessModel(listData)
     }
 
     //获取博客详情
     if (method === 'GET' && path === '/api/blog/detail') {
-        return {
-            msg: '获取博客详情'
-        }
+        const detailData = getDetail(author, id)
+        return new SuccessModel(detailData)
     }
 
     //新建博客
     if (method === 'POST' && path === '/api/blog/new') {
-        return {
-            msg: '新建博客'
-        }
+        const newData = addBlog(postData)
+        return new SuccessModel(newData)
     }
 
     //更新博客

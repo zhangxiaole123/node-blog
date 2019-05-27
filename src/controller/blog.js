@@ -6,6 +6,23 @@ const getList = (author, keyword) => {
         author: author
     }
 }
+const getDetail = (author, id) => {
+    return {
+        id: id,
+        title: "1",
+        content: "标题1",
+        author: author
+    }
+}
+const addBlog = (postData = {}) => {
+    return Object.assign({
+        id: 1,
+
+    }, postData)
+}
+
 module.exports = {
     getList,
+    getDetail,
+    addBlog
 }
