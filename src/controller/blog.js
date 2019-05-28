@@ -20,9 +20,22 @@ const addBlog = (postData = {}) => {
 
     }, postData)
 }
+const updateBlog = (postData = {}) => {
+    return Object.assign({
+        id: 2,
 
+    }, postData)
+}
+const deleteBlog = (id, author) => {
+    return {
+        id: id,
+        msg: "删除成功"
+    }
+}
 module.exports = {
     getList,
     getDetail,
-    addBlog
+    addBlog,
+    updateBlog,
+    deleteBlog
 }

@@ -5,8 +5,9 @@ const {
 const {
     getList,
     getDetail,
-    addBlog
-
+    addBlog,
+    updateBlog,
+    deleteBlog
 } = require('../controller/blog')
 
 
@@ -40,16 +41,14 @@ const handleBlogRouter = (req, res) => {
 
     //更新博客
     if (method === 'POST' && path === '/api/blog/update') {
-        return {
-            msg: '更新博客'
-        }
+        const updateData = updateBlog(postData)
+        return new SuccessModel(updateData)
     }
 
     //删除
     if (method === 'POST' && path === '/api/blog/delete') {
-        return {
-            msg: '删除'
-        }
+        const deleteData = deleteBlog(id, author)
+        return new SuccessModel(deleteData)
     }
 
 }
