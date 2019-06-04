@@ -4,12 +4,11 @@
 
 ## 项目结构
 ```
-vue
- |---build         #构建脚本和配置
- |---config        #配置文件目录
- |---mock          #mock接口定义文件目录
+node-blog
+ |---bin         #http 服务相关配置
+ |---docment        #相关文档
  |---src
-     |---assets    #资源
+     |---conf    #mysql 相关配置
      |---css/common.css  #css
      |---font/    #字体图标
      |---js/common.js    #自己定义的全局通用事件
