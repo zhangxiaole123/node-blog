@@ -19,6 +19,4 @@ if (env === 'production') {
         database: "myblog"
     }
 }
-module.exports = {
-    MYSQL_CONF
-}
+module.exports = {MYSQL_CONF}
