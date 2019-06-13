@@ -23,9 +23,9 @@ const handleBlogRouter = (req, res) => {
     const postData = req.postData;
     //获取博客列表
     if (method === 'GET' && path === '/api/blog/list') {
-        // const listData = getList(author, keyword)
         const result = getList(author, keyword);
         return result.then(listData => {
+            console.log(listData)
             return new SuccessModel(listData)
         })
 
@@ -34,19 +34,32 @@ const handleBlogRouter = (req, res) => {
     //获取博客详情
     if (method === 'GET' && path === '/api/blog/detail') {
         const detailData = getDetail(author, id)
-        return new SuccessModel(detailData)
+        return detailData.then(listData => {
+            console.log(listData)
+            return new SuccessModel(listData)
+        })
     }
 
     //新建博客
     if (method === 'POST' && path === '/api/blog/new') {
         const newData = addBlog(postData)
-        return new SuccessModel(newData)
+        return newData.then(listData => {
+            console.log(listData)
+            return new SuccessModel(listData)
+        })
     }
 
     //更新博客
     if (method === 'POST' && path === '/api/blog/update') {
         const updateData = updateBlog(postData)
-        return new SuccessModel(updateData)
+        return updateData.then(listData => {
+            console.log(listData)
+            if(listData){
+                return new SuccessModel(listData)
+            }else{
+                return new ErrorModel('更新失败')
+            }
+        })
     }
 
     //删除
