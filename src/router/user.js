@@ -15,11 +15,13 @@ const handleUserRouter = (req, res) => {
             password
         } = req.postData
         const loginData = login(username, password)
-        if (loginData.success) {
-            return new SuccessModel(loginData)
-        } else {
-            return new ErrorModel(loginData)
-        }
+        return loginData.then(data=>{
+            if(data.username){
+                return new SuccessModel('登陆成功')
+            }else{
+                return new ErrorModel('登陆失败')
+            }
+        })
     }
 }
 

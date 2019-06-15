@@ -44,10 +44,13 @@ const updateBlog = (postData = {}) => {
     })
 }
 const deleteBlog = (id, author) => {
-    return {
-        id: id,
-        msg: "删除成功"
-    }
+    let sql = `delete from blogs where id='${id}' and author='${author}'`
+    return exec(sql).then(deleteData=>{
+        if(deleteData.affectedRows>0){
+            return true
+        }
+        return false
+    })
 }
 module.exports = {
     getList,

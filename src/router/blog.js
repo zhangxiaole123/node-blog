@@ -25,7 +25,6 @@ const handleBlogRouter = (req, res) => {
     if (method === 'GET' && path === '/api/blog/list') {
         const result = getList(author, keyword);
         return result.then(listData => {
-            console.log(listData)
             return new SuccessModel(listData)
         })
 
@@ -35,7 +34,6 @@ const handleBlogRouter = (req, res) => {
     if (method === 'GET' && path === '/api/blog/detail') {
         const detailData = getDetail(author, id)
         return detailData.then(listData => {
-            console.log(listData)
             return new SuccessModel(listData)
         })
     }
@@ -44,7 +42,6 @@ const handleBlogRouter = (req, res) => {
     if (method === 'POST' && path === '/api/blog/new') {
         const newData = addBlog(postData)
         return newData.then(listData => {
-            console.log(listData)
             return new SuccessModel(listData)
         })
     }
@@ -53,7 +50,6 @@ const handleBlogRouter = (req, res) => {
     if (method === 'POST' && path === '/api/blog/update') {
         const updateData = updateBlog(postData)
         return updateData.then(listData => {
-            console.log(listData)
             if(listData){
                 return new SuccessModel(listData)
             }else{
@@ -64,8 +60,15 @@ const handleBlogRouter = (req, res) => {
 
     //删除
     if (method === 'POST' && path === '/api/blog/delete') {
+        const {id,author} = postData
         const deleteData = deleteBlog(id, author)
-        return new SuccessModel(deleteData)
+        return deleteData.then(listData => {
+            if(listData){
+                return new SuccessModel(listData)
+            }else{
+                return new ErrorModel('删除失败')
+            }
+        })
     }
 
 }
