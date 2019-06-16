@@ -41,6 +41,21 @@ const serverHandle = (req, res) => {
     // 利用querystring 获取url中的query
     req.query = querystring.parse(url.split('?')[1])
 
+    //解析cookie
+    req.cookie = {};
+    const cookieStr = req.headers.cookie || ""
+    cookieStr.split(';').forEach(element => {
+        if(!element){
+            return
+        }
+        const arr = element.split('=')
+        const key = arr[0].trim()
+        const value = arr[1].trim()
+        req.cookie[key] = value
+
+    });
+    console.log(req.cookie)
+
     //处理postdate
     getPostData(req).then(postData => {
 
