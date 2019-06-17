@@ -6,11 +6,6 @@ const {
     login
 } = require('../controller/user');
 
-const getCookieExprise = ()=>{
-    const d = new Date()
-    d.setTime(d.getTime() + (24*60*60*1000))
-    return d.toGMTString()
-}
 
 const handleUserRouter = (req, res) => {
     const method = req.method
@@ -25,12 +20,27 @@ const handleUserRouter = (req, res) => {
         const loginData = login(username, password)
         return loginData.then(data=>{
             if(data.username){
-                res.setHeader('Set-Cookie',`username=${data.username};path=/;httpOnly;expires=${getCookieExprise()} `)
-                return new SuccessModel(data.username)
+                req.session.username = data.username;
+                req.session.realname = data.realname;
+                console.log('req.session is', req.session)
+                return new SuccessModel(req.session)
             }else{
                 return new ErrorModel('登陆失败')
             }
         })
+    }
+
+    if(method === 'GET' && path === '/api/user/login-test'){
+        console.log(req.session)
+        if(req.session.username){
+            return Promise.resolve(
+                new SuccessModel(req.session)
+            )
+        }
+        return Promise.resolve(
+            new ErrorModel('尚未登陆')
+        )
+            
     }
 }
 
