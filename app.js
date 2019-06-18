@@ -1,7 +1,7 @@
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 const querystring = require('querystring');
-
+const { get ,set} = require('./src/db/redis')
 //处理http post请求传递的 data  数据
 const getPostData = (req, res) => {
     const promise = new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ const getCookieExprise = ()=>{
     return d.toGMTString()
 }
 
-let SESSION_DATA = {}
+// let SESSION_DATA = {}
 
 const serverHandle = (req, res) => {
     //设置返回格式
@@ -64,22 +64,37 @@ const serverHandle = (req, res) => {
 
     //解析session
     let userId = req.cookie.userid
-    console.log('userId',userId)
     let needCookie = false
-    if(userId){
-        if(!SESSION_DATA[userId]){
-            SESSION_DATA[userId] = {}
-        }
-    }else{
+    // if(userId){
+    //     if(!SESSION_DATA[userId]){
+    //         SESSION_DATA[userId] = {}
+    //     }
+    // }else{
+    //     needCookie = true
+    //     userId = Date.now() +'_'+ Math.random()
+    //     SESSION_DATA[userId] = {}
+    // }
+
+    // req.session = SESSION_DATA[userId]
+
+    //redis 保存session
+    if(!userId){
         needCookie = true
         userId = Date.now() +'_'+ Math.random()
-        SESSION_DATA[userId] = {}
+        set(userId,{})
     }
-
-    req.session = SESSION_DATA[userId]
-    
-    //处理postdate
-    getPostData(req).then(postData => {
+    req.sessionId = userId
+    get(req.sessionId).then(sessionData=>{
+        if(sessionData == null){
+            set(req.sessionId,{})
+            req.session = {}
+        }else{
+            req.session = sessionData
+        }
+        console.log('req.session',req.session)
+        return getPostData(req)
+    })
+    .then(postData => {
 
         req.postData = postData
 

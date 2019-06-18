@@ -18,7 +18,7 @@ function get(key){
                 reject(err)
                 return 
             }
-            if(val === null){
+            if(value === null){
                 resolve(value)
                 return
             }
@@ -31,6 +31,7 @@ function get(key){
             
         })
     })
+    return promise
 }
 module.exports = {
     set,

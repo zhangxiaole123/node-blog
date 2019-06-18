@@ -6,16 +6,17 @@ const {
     login
 } = require('../controller/user');
 
+const {set} = require('../db/redis')
 
 const handleUserRouter = (req, res) => {
     const method = req.method
     const path = req.path
 
-    if (method === 'GET' && path === '/api/user/login') {
+    if (method === 'POST' && path === '/api/user/login') {
         const {
             username,
             password
-        } = req.query
+        } = req.body
 
         const loginData = login(username, password)
         return loginData.then(data=>{
@@ -23,6 +24,9 @@ const handleUserRouter = (req, res) => {
                 req.session.username = data.username;
                 req.session.realname = data.realname;
                 console.log('req.session is', req.session)
+                //同步到redis
+                set(req.sessionId,req.session)
+
                 return new SuccessModel(req.session)
             }else{
                 return new ErrorModel('登陆失败')
@@ -30,18 +34,18 @@ const handleUserRouter = (req, res) => {
         })
     }
 
-    if(method === 'GET' && path === '/api/user/login-test'){
-        console.log(req.session)
-        if(req.session.username){
-            return Promise.resolve(
-                new SuccessModel(req.session)
-            )
-        }
-        return Promise.resolve(
-            new ErrorModel('尚未登陆')
-        )
+    // if(method === 'GET' && path === '/api/user/login-test'){
+    //     console.log(req.session)
+    //     if(req.session.username){
+    //         return Promise.resolve(
+    //             new SuccessModel(req.session)
+    //         )
+    //     }
+    //     return Promise.resolve(
+    //         new ErrorModel('尚未登陆')
+    //     )
             
-    }
+    // }
 }
 
 module.exports = handleUserRouter

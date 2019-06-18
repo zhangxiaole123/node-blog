@@ -10,6 +10,13 @@ const {
     deleteBlog
 } = require('../controller/blog')
 
+const loginCheck = (req)=>{
+    if(!req.session.username){
+        return Promise.resolve(
+            new ErrorModel('尚未登陆')
+        )
+    }
+}
 
 const handleBlogRouter = (req, res) => {
     //获取数据
@@ -40,6 +47,12 @@ const handleBlogRouter = (req, res) => {
 
     //新建博客
     if (method === 'POST' && path === '/api/blog/new') {
+
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            return loginCheck
+        }
+        postData.author = req.session.username
         const newData = addBlog(postData)
         return newData.then(listData => {
             return new SuccessModel(listData)
@@ -48,6 +61,10 @@ const handleBlogRouter = (req, res) => {
 
     //更新博客
     if (method === 'POST' && path === '/api/blog/update') {
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            return loginCheck
+        }
         const updateData = updateBlog(postData)
         return updateData.then(listData => {
             if(listData){
@@ -60,7 +77,12 @@ const handleBlogRouter = (req, res) => {
 
     //删除
     if (method === 'POST' && path === '/api/blog/delete') {
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            return loginCheck
+        }
         const {id,author} = postData
+        postData.author = req.session.username
         const deleteData = deleteBlog(id, author)
         return deleteData.then(listData => {
             if(listData){
