@@ -16,7 +16,7 @@ const handleUserRouter = (req, res) => {
         const {
             username,
             password
-        } = req.body
+        } = req.postData
 
         const loginData = login(username, password)
         return loginData.then(data=>{

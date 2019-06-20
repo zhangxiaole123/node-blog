@@ -9,7 +9,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
  
 Vue.use(VueAxios, axios)
-
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+// axios.headers['Content-Type'] = 'application/json'
 Vue.prototype.$axios = axios    //全局注册，使用方法为:this.$axios
 Vue.prototype.qs = qs           //全局注册，使用方法为:this.qs
 Vue.use(ElementUI);

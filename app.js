@@ -24,6 +24,7 @@ const getPostData = (req, res) => {
                 resolve({})
                 return
             }
+            console.log('postData...',postData)
             resolve(JSON.parse(postData))
         })
     })

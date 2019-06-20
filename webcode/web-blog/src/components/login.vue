@@ -2,7 +2,7 @@
     <el-dialog title="登陆" :visible.sync="dialogFormVisible">
         <el-form :model="form">
             <el-form-item label="账号" :label-width="formLabelWidth">
-                <el-input placeholder="请输入账号" v-model="form.name" autocomplete="off"></el-input>
+                <el-input placeholder="请输入账号" v-model="form.username" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="密码" :label-width="formLabelWidth">
                 <el-input placeholder="请输入密码" v-model="form.password" show-password></el-input>
@@ -28,9 +28,9 @@ export default {
     methods:{
         login(){
             this.$axios({
-                method:'post',
-                url:"",
-                data:this.qs.stringify(this.form)
+                method:'POST',
+                url:"/api/user/login",
+                data:JSON.stringify(this.form)
             })
             .then(res=>{
                 console.log(res)
