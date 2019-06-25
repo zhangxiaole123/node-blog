@@ -4,8 +4,14 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <el-container>
         <Headers></Headers>
-        <el-main>main</el-main>
-        <el-footer>footer</el-footer>       
+        <el-main>
+            <router-view></router-view>
+            <!-- <CardList></CardList> -->
+        </el-main>
+        <el-footer class="footer">
+            版权声明：本文为博主原创文章，未经博主允许不得转载。
+        </el-footer>
+        <!-- <Footers></Foote   rs> -->
     </el-container>
   </div>
 </template>
@@ -13,12 +19,16 @@
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 import Headers from './components/header.vue'
+import Footers from './components/footer.vue'
+import CardList from './components/cardList'
  
 
 export default {
   name: 'app',
   components: {
-    Headers
+    Headers,
+    Footers,
+    CardList
   }
 }
 </script>
@@ -32,5 +42,11 @@ export default {
 }
 body {
     margin: 0;
+}
+.footer{
+    text-align: center;
+    line-height: 60px;
+    background: #eee;
+    color: #333;
 }
 </style>

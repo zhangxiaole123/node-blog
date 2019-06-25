@@ -20,6 +20,7 @@ class SuccessModel extends BaseModel {
     constructor(data, message) {
         super(data, message)
         this.code = 0
+        this.success = true
     }
 }
 
@@ -28,6 +29,7 @@ class ErrorModel extends BaseModel {
     constructor(data, message) {
         super(data, message)
         this.code = -1
+        this.success = false
     }
 }
 

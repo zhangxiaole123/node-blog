@@ -20,7 +20,7 @@ export default {
     name:"login",
     data() {
         return {
-            dialogFormVisible:true,
+            dialogFormVisible:false,
             form:{},
             formLabelWidth:"120px"
         }

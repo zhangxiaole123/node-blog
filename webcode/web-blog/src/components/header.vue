@@ -1,9 +1,9 @@
 <template>
-<el-header class="padleft">
-    张小乐的个人博客网站
-    <el-button class="login" type="text">登陆</el-button>
-    <Login></Login>
-</el-header>
+    <el-header class="padleft">
+        张小乐的个人博客网站
+        <el-button class="login" type="text">登陆</el-button>
+        <Login></Login>
+    </el-header>
 </template>
 
 <script>
