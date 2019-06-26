@@ -1,8 +1,8 @@
 <template>
     <el-header class="padleft">
         张小乐的个人博客网站
-        <el-button class="login" type="text">登陆</el-button>
-        <Login></Login>
+        <el-button class="login" type="text" @click="dialogFormVisible = true">登陆</el-button>
+        <Login :dialogFormVisible="dialogFormVisible" @close="close"></Login>
     </el-header>
 </template>
 
@@ -12,7 +12,17 @@ export default {
     name: 'headers',
     components: {
         Login
-    }
+    },
+    data(){
+        return {
+            dialogFormVisible:false
+        }
+    },
+    methods: {
+        close(value){
+            this.dialogFormVisible = value;
+        }
+    },
 }
 </script>
 

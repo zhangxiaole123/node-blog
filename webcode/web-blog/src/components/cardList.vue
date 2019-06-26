@@ -26,7 +26,7 @@ export default {
             })
         },
         toDetail(id){
-            this.$router.push({ name: 'detail', params: { id: id }})
+            this.$router.push({ path: '/detail', query: { id: id }})
         }
     },
     mounted(){

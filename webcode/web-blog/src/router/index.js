@@ -1,6 +1,5 @@
-import Detail from '../components/HelloWorld.vue'
+import Detail from '../components/blog-detail.vue'
 import CardList from '../components/cardList.vue'
-
 const routers = {
     routes: [
         {//列表页
@@ -17,7 +16,6 @@ const routers = {
             name:"list",
             component: CardList
         },
-
     ]
 }
 export default routers 
