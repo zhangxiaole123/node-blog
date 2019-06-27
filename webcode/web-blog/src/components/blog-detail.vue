@@ -1,22 +1,50 @@
 <template>
     <div>
-        <el-input name="" :disabled="isView" v-model="detail.title"></el-input>
-        <el-input class="content" name="content" type="textarea" :rows="6" :disabled="isView" v-model="detail.content"></el-input>
-        <el-button type="primary" @click="savaBlog">新建博客</el-button>
+        <el-input name="" :disabled="detailType==='view'" v-model="detail.title"></el-input>
+        <el-input class="content" name="content" type="textarea" autosize  :disabled="detailType==='view'" v-model="detail.content"></el-input>
+        <el-button v-if="detailType!=='view'" type="primary" @click="detailType==='new'?savaBlog():savaEditBlog()">保存</el-button>
+        <el-button type="primary" @click="editBlog">修改</el-button>
+        <el-button type="primary" @click="deleteBlog">删除</el-button>
     </div>
 </template>
 <script>
 export default {
     data(){
         return{
-            isView:false,
+            detailType:"view",
             detail:{
                 title:"",
                 content:""
             }
         }
     },
+    watch:{
+        "$route":function (value) { 
+            if(value === 'new'){
+                this.$set(this,'detail',{})
+            }
+        }
+    },
     methods:{
+        deleteBlog(){
+            this.$axios({
+                method:'POST',
+                url:"/api/blog/delete",
+                data:JSON.stringify(this.detail),
+            })
+            .then(res=>{
+                if(res.data.success){
+                    this.$router.push({ path: '/list'})
+                    this.$notify({
+                        title: '删除成功',
+                        type: 'success'
+                    });
+                }
+            })
+        },
+        editBlog(){
+            this.detailType = 'edit'
+        },
         getDetailData(){
             this.$axios({
                 method:'GET',
@@ -41,14 +69,32 @@ export default {
                     });
                 }
             })
-        }
+        },
+        savaEditBlog(){
+            this.$axios({
+                method:'POST',
+                url:"/api/blog/update",
+                data:JSON.stringify(this.detail),
+            })
+            .then(res=>{
+                if(res.data.success){
+                    this.$router.push({ path: '/list'})
+                    this.$notify({
+                        title: '修改成功',
+                        type: 'success'
+                    });
+                }
+            })
+        },
+        
     },
     mounted(){
         console.log(this.$route)
-        if(this.$route.query.isView){
-            this.isView = true
+        this.detailType = this.$route.query.detailType
+        if(this.detailType === 'view' || this.detailType === 'edit'){
             this.getDetailData()
         }
+        
     }
 }
 </script>

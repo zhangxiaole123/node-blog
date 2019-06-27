@@ -40,7 +40,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-body {
+html,#app,body {
+    height: 100%;
     margin: 0;
 }
 .footer{
@@ -48,5 +49,13 @@ body {
     line-height: 60px;
     background: #eee;
     color: #333;
+    position: absolute;;
+    bottom: -60px;
+    left: 0;
+    width: 100%;
+}
+.el-container{
+  position: relative;
+  min-height: 100%;
 }
 </style>

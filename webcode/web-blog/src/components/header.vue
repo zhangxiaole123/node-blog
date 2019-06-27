@@ -1,6 +1,8 @@
 <template>
     <el-header class="padleft">
         张小乐的个人博客网站
+        <el-button class="login" type="text" @click="goBack">返回</el-button>
+        <el-button class="login" type="text" @click="toNewBlog">新建博客</el-button>
         <el-button class="login" type="text" @click="dialogFormVisible = true">登陆</el-button>
         <Login :dialogFormVisible="dialogFormVisible" @close="close"></Login>
     </el-header>
@@ -21,6 +23,12 @@ export default {
     methods: {
         close(value){
             this.dialogFormVisible = value;
+        },
+        toNewBlog(){
+            this.$router.push({path:'/detail',query: {detailType:'new' }})
+        },
+        goBack(){
+            this.$router.go(-1)
         }
     },
 }
