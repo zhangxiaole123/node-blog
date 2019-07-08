@@ -2,6 +2,7 @@ const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 const querystring = require('querystring');
 const { get ,set} = require('./src/db/redis')
+const { access } = require('./src/uits/log')
 //处理http post请求传递的 data  数据
 const getPostData = (req, res) => {
     const promise = new Promise((resolve, reject) => {
@@ -39,6 +40,13 @@ const getCookieExprise = ()=>{
 // let SESSION_DATA = {}
 
 const serverHandle = (req, res) => {
+    //记录日志
+    console.log(process.env.NODE_ENV)
+    if(process.env.NODE_ENV !=='dev'){
+        access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
+    }
+
+
     //设置返回格式
     res.setHeader('Content-type', 'application/json')
 
