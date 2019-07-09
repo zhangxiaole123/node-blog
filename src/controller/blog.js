@@ -1,5 +1,6 @@
 const {
-    exec
+    exec,
+    escape
 } = require('../db/mysql');
 
 const getList = (author, keyword) => {
@@ -24,9 +25,11 @@ const getDetail = (author, id) => {
     return exec(sql)
 }
 const addBlog = (postData = {}) => {
-    const {title,content,author} = postData;
+    let {title,content,author} = postData;
+    title = escape(title)
+    content = escape(content)
     const createdtime = Date.now();
-    let sql = `insert into blogs(title,content,author,createdtime) values ('${title}','${content}','${author}','${createdtime}')`
+    let sql = `insert into blogs(title,content,author,createdtime) values (${title},${content},'${author}','${createdtime}')`
     return exec(sql).then(newData=>{
         return {
             id:newData.insertId
@@ -34,8 +37,10 @@ const addBlog = (postData = {}) => {
     })
 }
 const updateBlog = (postData = {}) => {
-    const {title,content,author,id} = postData
-    let sql = `update blogs set title='${title}', content='${content}', createdtime='${Date.now()} where author='${author}' and id='${id}'`
+    let {title,content,author,id} = postData
+    title = escape(title)
+    content = escape(content)
+    let sql = `update blogs set title=${title}, content=${content}, createdtime='${Date.now()}' where author='${author}' and id='${id}'`
     return exec(sql).then(updateData=>{
         if(updateData.affectedRows>0){
             return true

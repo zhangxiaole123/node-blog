@@ -45,6 +45,7 @@ const serverHandle = (req, res) => {
     if(process.env.NODE_ENV !=='dev'){
         access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
     }
+    access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
 
 
     //设置返回格式
